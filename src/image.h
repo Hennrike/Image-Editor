@@ -62,6 +62,7 @@ int read(const char *filename) {
 
     fclose(inptr);
     free(row);
+    row = NULL;
 
     return 0;
 }
@@ -113,6 +114,26 @@ int write(const char *filename) {
     fclose(outptr);
 
     return 0;
+}
+
+
+void convertBW() {
+    int averageColor = 0;
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            averageColor = (int)(
+                data[i][j].rgbtBlue * 0.3  +
+                data[i][j].rgbtGreen * 0.586 +
+                data[i][j].rgbtRed * 0.114
+                ) / 3;
+
+            data[i][j] = (struct RGBTRIPLE){
+                averageColor,
+                averageColor,
+                averageColor
+            };
+        }
+    }
 }
 
 #endif
